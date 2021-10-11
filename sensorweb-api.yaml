@@ -19,8 +19,8 @@ info:
     url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
     
 servers:
-  - url: 'https://sensiasoft.net:8443/sensorhub/api'
-    description: Sensiasoft Demo Server
+  - url: 'https://ogct17.georobotix.io:8443/sensorhub/api'
+    description: OGC T17 Demo Server
   - url: 'http://localhost:8181/sensorhub/api'
     description: Local testing server
     
