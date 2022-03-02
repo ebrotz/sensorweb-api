@@ -485,6 +485,122 @@ paths:
         5XX:
           $ref: '#/components/responses/5XX'
           
+  '/systems/{sysid}/contacts':
+    get:
+      summary: >-
+        List or search a system's contact info. A system can be attached to several responsible parties 
+        (i.e. owner, operator, etc.) 
+      tags:
+        - Systems
+      parameters:
+        - $ref: '#/components/parameters/fulltext'
+        - $ref: '#/components/parameters/validTime'
+        - $ref: '#/components/parameters/select'
+        - $ref: '#/components/parameters/format'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+      responses:
+        '200':
+          description: OK. Successful request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResponsibleParty'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        5XX:
+          $ref: '#/components/responses/5XX'
+    post:
+      summary: Add a new responsible party for a system
+      tags:
+        - Systems
+      parameters:
+        - $ref: '#/components/parameters/sysid'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResponsibleParty'
+      responses:
+        '201':
+          $ref: '#/components/responses/201'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        5XX:
+          $ref: '#/components/responses/5XX'        
+            
+  '/systems/{sysid}/events':
+    get:
+      summary: >-
+        List or search events related to a system (e.g. maintenance events, contact change, etc.)
+      tags:
+        - Systems
+      parameters:
+        - $ref: '#/components/parameters/fulltext'
+        - $ref: '#/components/parameters/eventTime'
+        - $ref: '#/components/parameters/eventType'
+        - $ref: '#/components/parameters/select'
+        - $ref: '#/components/parameters/format'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+      responses:
+        '200':
+          description: OK. Successful request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SystemEvent'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        5XX:
+          $ref: '#/components/responses/5XX'
+    post:
+      summary: Publish a new system event
+      tags:
+        - Systems
+      parameters:
+        - $ref: '#/components/parameters/sysid'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SystemEvent'
+      responses:
+        '201':
+          $ref: '#/components/responses/201'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        5XX:
+          $ref: '#/components/responses/5XX'
+          
   '/systems/{sysid}/featuresOfInterest':
     get:
       summary: List or search features of interest of a system. Individual features
@@ -1337,6 +1453,13 @@ components:
         - $ref: '#/components/schemas/Links'
     AbstractProcess:
       type: object
+      
+    ResponsibleParty:
+      description: ISO 19115 responsible party object
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ResourceWithId'
+        
     DataStream:
       allOf:
         - $ref: '#/components/schemas/ResourceWithId'
@@ -1376,7 +1499,6 @@ components:
             type: string
           'type':
             type: string
-            
     ResourceEvent:
       type: object
       description: Resource Event
@@ -1583,6 +1705,24 @@ components:
       required: false
       schema:
         $ref: '#/components/schemas/DateTimeOrPeriod'
+    eventTime:
+      name: eventTime
+      in: query
+      description: |-
+        ISO 8601 time range to filter events on their timestamp.
+        When this parameter is omitted, no filtering on "eventTime" is applied.
+      required: false
+      schema:
+        $ref: '#/components/schemas/DateTimeOrPeriod'
+    eventType:
+      name: eventType
+      in: query
+      description: Comma separated list of event type URIs to filter system events.
+      schema:
+        type: array
+        items:
+          type: string
+          format: uri 
     phenomenonTime:
       name: phenomenonTime
       in: query
