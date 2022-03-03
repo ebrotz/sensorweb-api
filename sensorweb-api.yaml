@@ -601,67 +601,6 @@ paths:
         5XX:
           $ref: '#/components/responses/5XX'
           
-  '/systems/{sysid}/featuresOfInterest':
-    get:
-      summary: List or search features of interest of a system. Individual features
-        can be retrieved by ID directly on the root "featuresOfInterest" collection
-      tags:
-        - Systems
-        - Features of Interest
-      parameters:
-        - $ref: '#/components/parameters/sysid'
-        - $ref: '#/components/parameters/fulltext'
-        - $ref: '#/components/parameters/bbox'
-        - $ref: '#/components/parameters/location'
-        - $ref: '#/components/parameters/validTime'
-        - $ref: '#/components/parameters/select'
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
-      responses:
-        '200':
-          description: OK. Successful request
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Feature'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        5XX:
-          $ref: '#/components/responses/5XX'
-    post:
-      summary: Add a new feature of interest to a system or system group
-      tags:
-        - Systems
-      parameters:
-        - $ref: '#/components/parameters/sysid'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Feature'
-      responses:
-        '201':
-          $ref: '#/components/responses/201'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        5XX:
-          $ref: '#/components/responses/5XX'
-          
   '/systems/{sysid}/members':
     get:
       summary: >-
@@ -775,6 +714,129 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/DataStream'
+      responses:
+        '201':
+          $ref: '#/components/responses/201'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        5XX:
+          $ref: '#/components/responses/5XX'
+            
+  '/systems/{sysid}/controls':
+    get:
+      summary: Get the list of control interfaces of a system
+      tags:
+        - Systems
+        - Tasking
+      parameters:
+        - $ref: '#/components/parameters/sysid'
+        - $ref: '#/components/parameters/fulltext'
+        - $ref: '#/components/parameters/actuableProperty'
+        - $ref: '#/components/parameters/issueTime'
+        - $ref: '#/components/parameters/select'
+        - $ref: '#/components/parameters/format'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+      responses:
+        '200':
+          description: OK. Successful request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CommandStream'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        5XX:
+          $ref: '#/components/responses/5XX'
+    post:
+      summary: Add a new control interface to a system
+      tags:
+        - Systems
+        - Tasking
+      parameters:
+        - $ref: '#/components/parameters/sysid'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommandStream'
+      responses:
+        '201':
+          $ref: '#/components/responses/201'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        5XX:
+          $ref: '#/components/responses/5XX'
+          
+  '/systems/{sysid}/featuresOfInterest':
+    get:
+      summary: List or search features of interest that are directly associated to a system.
+        These usually include sampling features such as sampling stations or vehicles that are
+        part of a larger system, but not domain/sampled features. Individual features
+        can be retrieved by ID directly on the root "featuresOfInterest" collection.
+      tags:
+        - Systems
+        - Features of Interest
+      parameters:
+        - $ref: '#/components/parameters/sysid'
+        - $ref: '#/components/parameters/fulltext'
+        - $ref: '#/components/parameters/bbox'
+        - $ref: '#/components/parameters/location'
+        - $ref: '#/components/parameters/validTime'
+        - $ref: '#/components/parameters/select'
+        - $ref: '#/components/parameters/format'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+      responses:
+        '200':
+          description: OK. Successful request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Feature'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        5XX:
+          $ref: '#/components/responses/5XX'
+    post:
+      summary: Associate a new feature of interest to a system or system group
+      tags:
+        - Systems
+      parameters:
+        - $ref: '#/components/parameters/sysid'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Feature'
       responses:
         '201':
           $ref: '#/components/responses/201'
@@ -905,54 +967,25 @@ paths:
           $ref: '#/components/responses/404'
         5XX:
           $ref: '#/components/responses/5XX'
-            
-  '/systems/{sysid}/controls':
+  
+    
+  # Datastream nested resources
+  '/datastreams/{dsid}/schema':
     get:
-      summary: Get the list of control interfaces of a system
+      summary: Get the detailed schema of the data records in a datastream
       tags:
-        - Tasking
+        - Datastreams
       parameters:
-        - $ref: '#/components/parameters/sysid'
-        - $ref: '#/components/parameters/fulltext'
-        - $ref: '#/components/parameters/actuableProperty'
-        - $ref: '#/components/parameters/issueTime'
+        - $ref: '#/components/parameters/dsid'
         - $ref: '#/components/parameters/select'
         - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
       responses:
         '200':
           description: OK. Successful request
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CommandStream'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        5XX:
-          $ref: '#/components/responses/5XX'
-    post:
-      summary: Add a new control interface to a system
-      tags:
-        - Tasking
-      parameters:
-        - $ref: '#/components/parameters/sysid'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CommandStream'
-      responses:
-        '201':
-          $ref: '#/components/responses/201'
+                $ref: '#/components/schemas/StreamSchema'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -964,20 +997,6 @@ paths:
         5XX:
           $ref: '#/components/responses/5XX'
           
-  '/systems/{sysid}/controls/{dsid}':
-    get:
-      summary:  Get a specific control interface description by ID.
-      tags:
-        - Tasking
-      parameters:
-        - $ref: '#/components/parameters/sysid'
-        - $ref: '#/components/parameters/dsid'
-      responses:
-        '200':
-          description: OK. Successful request
-  
-    
-  # Datastream nested resources
   '/datastreams/{dsid}/observations':
     get:
       summary: Retrieve historical observations from a datastream
@@ -1030,7 +1049,46 @@ paths:
           $ref: '#/components/responses/5XX'
           
           
-  # Control channel nested resources
+  # Control channel nested resources          
+  '/systems/{sysid}/controls/{dsid}':
+    get:
+      summary:  Get a specific control interface description by ID.
+      tags:
+        - Tasking
+      parameters:
+        - $ref: '#/components/parameters/sysid'
+        - $ref: '#/components/parameters/dsid'
+      responses:
+        '200':
+          description: OK. Successful request
+          
+  '/systems/{sysid}/controls/{dsid}/schema':
+    get:
+      summary: Get the detailed schema of command messages in a command stream
+      tags:
+        - Tasking
+      parameters:
+        - $ref: '#/components/parameters/dsid'
+        - $ref: '#/components/parameters/select'
+        - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: OK. Successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SweSchema'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        5XX:
+          $ref: '#/components/responses/5XX'
+          
   '/systems/{sysid}/controls/{dsid}/commands':
     get:
       summary: Get the list of commands received by a particular control interface
