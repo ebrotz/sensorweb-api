@@ -1077,7 +1077,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SweSchema'
+                $ref: '#/components/schemas/StreamSchema'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -1532,6 +1532,8 @@ components:
                 $ref: '#/components/schemas/DataEncoding'
     CommandStream:
       type: Object
+    StreamSchema:
+      type: object
     DataComponent:
       type: object
     DataEncoding:
