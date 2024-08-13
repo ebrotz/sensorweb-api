@@ -492,13 +492,6 @@ paths:
         (i.e. owner, operator, etc.)
       tags:
         - Systems
-      parameters:
-        - $ref: '#/components/parameters/fulltext'
-        - $ref: '#/components/parameters/validTime'
-        - $ref: '#/components/parameters/select'
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
       responses:
         '200':
           description: OK. Successful request
@@ -522,8 +515,6 @@ paths:
       summary: Add a new responsible party for a system
       tags:
         - Systems
-      parameters:
-        - $ref: '#/components/parameters/sysid'
       requestBody:
         content:
           application/json:
@@ -542,6 +533,8 @@ paths:
           $ref: '#/components/responses/404'
         5XX:
           $ref: '#/components/responses/5XX'
+    parameters:
+      - $ref: '#/components/parameters/sysid'
 
   '/systems/{sysid}/events':
     get:
@@ -549,14 +542,6 @@ paths:
         List or search events related to a system (e.g. maintenance events, contact change, etc.)
       tags:
         - Systems
-      parameters:
-        - $ref: '#/components/parameters/fulltext'
-        - $ref: '#/components/parameters/eventTime'
-        - $ref: '#/components/parameters/eventType'
-        - $ref: '#/components/parameters/select'
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
       responses:
         '200':
           description: OK. Successful request
@@ -580,8 +565,6 @@ paths:
       summary: Publish a new system event
       tags:
         - Systems
-      parameters:
-        - $ref: '#/components/parameters/sysid'
       requestBody:
         content:
           application/json:
@@ -600,6 +583,8 @@ paths:
           $ref: '#/components/responses/404'
         5XX:
           $ref: '#/components/responses/5XX'
+    parameters:
+      - $ref: '#/components/parameters/sysid'
 
   '/systems/{sysid}/members':
     get:
@@ -1068,9 +1053,8 @@ paths:
       tags:
         - Tasking
       parameters:
+        - $ref: '#/components/parameters/sysid'
         - $ref: '#/components/parameters/dsid'
-        - $ref: '#/components/parameters/select'
-        - $ref: '#/components/parameters/format'
       responses:
         '200':
           description: OK. Successful request
@@ -1189,17 +1173,6 @@ paths:
       summary: Get all status messages associated to a specific command
       tags:
         - Tasking
-      parameters:
-        - $ref: '#/components/parameters/sysid'
-        - $ref: '#/components/parameters/dsid'
-        - $ref: '#/components/parameters/cmdid'
-        - $ref: '#/components/parameters/reportTime'
-        - $ref: '#/components/parameters/executionTime'
-        - $ref: '#/components/parameters/statusCode'
-        - $ref: '#/components/parameters/select'
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
       responses:
         '200':
           description: OK. Successful request
@@ -1223,9 +1196,6 @@ paths:
       summary: Send a new status report associated to this command (this is typically used by a system receiving commands from the API)
       tags:
         - Tasking
-      parameters:
-        - $ref: '#/components/parameters/sysid'
-        - $ref: '#/components/parameters/dsid'
       requestBody:
         content:
           application/json:
@@ -1244,7 +1214,10 @@ paths:
           $ref: '#/components/responses/404'
         5XX:
           $ref: '#/components/responses/5XX'
-
+    parameters:
+      - $ref: '#/components/parameters/sysid'
+      - $ref: '#/components/parameters/dsid'
+      - $ref: '#/components/parameters/cmdid'
   # Feature nested resources
   '/featuresOfInterest/{fid}/history':
     get:
@@ -1531,7 +1504,7 @@ components:
               items:
                 $ref: '#/components/schemas/DataEncoding'
     CommandStream:
-      type: Object
+      type: object
     StreamSchema:
       type: object
     DataComponent:
