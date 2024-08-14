@@ -140,6 +140,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/System'
+            auto:
+              schema:
+                $ref: '#/components/schemas/System'
         '400':
           $ref: '#/components/responses/400'
         '401':
