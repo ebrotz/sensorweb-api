@@ -672,9 +672,8 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/DataComponent'
+                type: object
+                $ref: '#/components/schemas/DataComponent'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -1509,6 +1508,38 @@ components:
       type: object
     DataComponent:
       type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                $ref: '#/components/schemas/ResourceWithId'
+              name:
+                type: string
+              outputName:
+                type: string
+              validTIme:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DateTime'
+              phenomenonTime:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DateTime'
+              resultTime:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DateTime'
+              observedProperties:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ObservedProperty'
+              formats:
+                type: array
+                items:
+                  type: string
     DataEncoding:
       type: object
     Observation:
@@ -1595,6 +1626,15 @@ components:
           * A closed interval: "2020-02-12T00:00:00Z/2020-03-18T12:31:12Z" or "2020-01-15Z/2020-02-16Z"
           * An open interval: "2020-02-12T00:00:00Z/.." or "../2020-03-18T12:31:12Z"
           * An interval with indeterminate value: "2020-02-12T00:00:00Z/now" or "now/.."
+    ObservedProperty:
+      type: object
+      properties:
+        description:
+          type: string
+        definition:
+          type: string
+        label:
+          type: string
 
   parameters:
     cid:
